@@ -17,11 +17,18 @@ export default function Home() {
     setForm((state) => ({ ...state, [fieldName]: e.target.value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     if (form.key === '123456') {
-      router.push("/treasure")
+      event.preventDefault();
+      router.push(
+        {
+          pathname: '/treasure',
+          query: {
+            name: form.name
+          }
+        })
     }
-    else if(form.key === "" || form.name === "") {
+    else if (form.key === "" || form.name === "") {
       setIsError(true)
       setErrorMsg("Field can't be blank")
       setForm(() => ({ name: "", key: "" }));
@@ -56,13 +63,13 @@ export default function Home() {
               <label className="label">
                 <span className="label-text">Key?</span>
               </label>
-              <input type="text" value={form.key} onChange={(e) => handleFormFieldChange("key", e)} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+              <input type="password" value={form.key} onChange={(e) => handleFormFieldChange("key", e)} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
             </div>
             <button className="mt-8 btn btn-wide" onClick={handleSubmit}>Submit</button>
           </div>
         </div>
       </div>
-      
+
       {isError ? (
         <AnimatePresence mode='wait'>
           <motion.div
@@ -72,13 +79,13 @@ export default function Home() {
             transition={{ duration: 0.3 }}
           >
             <div className="toast">
-            <div className="alert alert-error">
-              <div className='w-64'>
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>{errorMsg}</span>
+              <div className="alert alert-error">
+                <div className='w-64'>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>{errorMsg}</span>
+                </div>
               </div>
             </div>
-          </div>
           </motion.div>
         </AnimatePresence>
       ) : (
