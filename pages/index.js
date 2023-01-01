@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from '@emailjs/browser';
 
 export default function Home() {
   const router = useRouter();
@@ -9,9 +10,21 @@ export default function Home() {
   const [errorMsg, setErrorMsg] = useState("");
   const [form, setForm] = useState({
     name: "",
+    pcno: "",
     key: ""
   });
 
+  const sendEmail = () => {
+    const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      name: form.name,
+      pcno: form.pcno,
+      timestamp: new Date().toLocaleString(),
+      replyto: "samaralishaikh212@gmail.com",
+    }, EMAILJS_PUBLIC_KEY);
+  };
 
   const handleFormFieldChange = (fieldName, e) => {
     setForm((state) => ({ ...state, [fieldName]: e.target.value }));
@@ -19,7 +32,10 @@ export default function Home() {
 
   const handleSubmit = (event) => {
     if (form.key === '123456') {
+      setIsLoading(true)
       event.preventDefault();
+      sendEmail()
+      setIsLoading(false)
       router.push(
         {
           pathname: '/treasure',
@@ -28,10 +44,10 @@ export default function Home() {
           }
         })
     }
-    else if (form.key === "" || form.name === "") {
+    else if (form.key === "" || form.name === "" || form.pcno === "") {
       setIsError(true)
       setErrorMsg("Field can't be blank")
-      setForm(() => ({ name: "", key: "" }));
+      setForm(() => ({ name: "", pcno: "", key: "" }));
       setTimeout(function () {
         setIsError(false)
       }, 5000)
@@ -61,11 +77,20 @@ export default function Home() {
             </div>
             <div className="form-control w-full max-w-xs">
               <label className="label">
+                <span className="label-text">Your pc number?</span>
+              </label>
+              <input type="text" value={form.pcno} onChange={(e) => handleFormFieldChange("pcno", e)} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+            </div>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
                 <span className="label-text">Key?</span>
               </label>
               <input type="password" value={form.key} onChange={(e) => handleFormFieldChange("key", e)} placeholder="Type here" className="input input-bordered w-full max-w-xs" />
             </div>
-            <button className="mt-8 btn btn-wide" onClick={handleSubmit}>Submit</button>
+            {isLoading
+              ? <button disabled className="mt-8 btn btn-wide">Loading...</button>
+              : <button className="mt-8 btn btn-wide" onClick={handleSubmit}>Submit</button>
+            }
           </div>
         </div>
       </div>
