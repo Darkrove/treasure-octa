@@ -55,7 +55,7 @@ export default function Home() {
     else {
       setIsError(true)
       setErrorMsg("Invalid Key")
-      setForm(() => ({ name: "", key: "" }));
+      setForm(() => ({ key: "" }));
       setTimeout(function () {
         setIsError(false)
       }, 5000)
@@ -99,7 +99,7 @@ export default function Home() {
         <AnimatePresence mode='wait'>
           <motion.div
             initial={{ x: -1800, y: 100, opacity: 0 }}
-            animate={{ x: 130, y: 100, opacity: 1 }}
+            animate={{ x: 161, y: 100, opacity: 1 }}
             exit={{ x: 1800, y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
