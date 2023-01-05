@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   const handleSubmit = (event) => {
-    if (form.key === '123456') {
+    if (form.key === '964926') {
       setIsLoading(true)
       event.preventDefault();
       sendEmail()
