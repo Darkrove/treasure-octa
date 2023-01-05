@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   const handleSubmit = (event) => {
-    if (form.key === '964926') {
+    if (form.key === '123456') {
       setIsLoading(true)
       event.preventDefault();
       sendEmail()
@@ -55,7 +55,7 @@ export default function Home() {
     else {
       setIsError(true)
       setErrorMsg("Invalid Key")
-      setForm(() => ({ key: "" }));
+      setForm(() => ({ name: "", key: "" }));
       setTimeout(function () {
         setIsError(false)
       }, 5000)
