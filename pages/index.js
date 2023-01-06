@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   const handleSubmit = (event) => {
-    if (form.key !== "" && form.name !== "" && form.pcno !== "" && form.key === '964926') {
+    if (form.key !== "" && form.name !== "" && form.pcno !== "" && form.key === '9022681364') {
       setIsLoading(true)
       event.preventDefault();
       sendEmail()
